@@ -15,11 +15,14 @@ public class Handler implements com.openfaas.model.IHandler {
     private OrderService orderService = new OrderServiceImpl();
 
     public IResponse Handle(IRequest req) {
+        long startTime=System.currentTimeMillis(); 
         Order orderInfo = JsonUtils.json2Object(req.getBody(), Order.class);
         mResponse mRes = orderService.saveChanges(orderInfo);
 
         Response res = new Response();
         res.setBody(JsonUtils.object2Json(mRes));
+        long duration = System.currentTimeMillis() - startTime;
+        System.out.println("FunctionLog: saveOrderInfo,"+req.getBody().hashCode()+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
         return res;
     }
 }

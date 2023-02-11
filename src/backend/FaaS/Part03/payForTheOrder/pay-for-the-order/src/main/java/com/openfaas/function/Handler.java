@@ -14,7 +14,8 @@ public class Handler implements com.openfaas.model.IHandler {
     private InsidePaymentService insidePaymentService = new InsidePaymentServiceImpl();
 
     public IResponse Handle(IRequest req) {
-    	   Response res = new Response();
+        long startTime=System.currentTimeMillis(); 
+        Response res = new Response();
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Access-Control-Allow-Methods", "POST");
         res.setHeader("Access-Control-Allow-Headers", "x-requested-with,Authorization,content-type");
@@ -24,7 +25,8 @@ public class Handler implements com.openfaas.model.IHandler {
         mResponse mRes = insidePaymentService.pay(info);
         res.setBody(JsonUtils.object2Json(mRes));
         System.out.println(res.getBody());
-
+        long duration = System.currentTimeMillis() - startTime;
+        System.out.println("FunctionLog: payForTheOrder,"+req.getBody().hashCode()+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
         } catch (Exception e) {
             e.printStackTrace();
         }

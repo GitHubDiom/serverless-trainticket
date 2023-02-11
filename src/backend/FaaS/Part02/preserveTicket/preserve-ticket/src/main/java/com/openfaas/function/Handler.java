@@ -15,6 +15,7 @@ public class Handler implements com.openfaas.model.IHandler {
     private PreserveService preserveService = new PreserveServiceImpl();
 
     public IResponse Handle(IRequest req) {
+        long startTime=System.currentTimeMillis(); 
         Response res = new Response();
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Access-Control-Allow-Methods", "POST");
@@ -24,6 +25,8 @@ public class Handler implements com.openfaas.model.IHandler {
             OrderTicketsInfo info = JsonUtils.json2Object(req.getBody(), OrderTicketsInfo.class);
             mResponse mRes = preserveService.preserve(info);
             res.setBody(JsonUtils.object2Json(mRes));
+            long duration = System.currentTimeMillis() - startTime;
+            System.out.println("FunctionLog: preserveTicket,"+req.getBody().hashCode()+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
         } catch (Exception e) {
         }
         return res;

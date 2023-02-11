@@ -32,8 +32,8 @@ public class Handler implements com.openfaas.model.IHandler {
     private StationService stationService = new StationServiceImpl();
 
     public IResponse Handle(IRequest req) {
-
-    	   System.out.println("start");
+        long startTime=System.currentTimeMillis(); 
+    	System.out.println("start");
         MongoClient mongoClient = MongoClients.create("mongodb://ts-station-mongo.default:27017");
         MongoDatabase database = mongoClient.getDatabase("ts");
         MongoCollection<Document> collection = database.getCollection("station");
@@ -49,7 +49,9 @@ public class Handler implements com.openfaas.model.IHandler {
 
         Response res = new Response();
         res.setBody(JsonUtils.object2Json(mRes));
-
+        int inputHash = stationName.hashCode();
+        long duration = System.currentTimeMillis() - startTime;
+        System.out.println("FunctionLog: queryForStationIdByStationName,"+inputHash+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
         return res;
     }
 }

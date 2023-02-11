@@ -16,6 +16,7 @@ public class Handler implements com.openfaas.model.IHandler {
     private PaymentService paymentService = new PaymentServiceImpl();
 
     public IResponse Handle(IRequest req) {
+        long startTime=System.currentTimeMillis(); 
         PaymentInfo info= JsonUtils.json2Object(req.getBody(),PaymentInfo.class);
         Payment payment=new Payment();
         payment.setOrderId(info.getOrderId());
@@ -25,6 +26,8 @@ public class Handler implements com.openfaas.model.IHandler {
 
         Response res = new Response();
         res.setBody(JsonUtils.object2Json(mRes));
+        long duration = System.currentTimeMillis() - startTime;
+        System.out.println("FunctionLog: createThirdPartyPaymentAndPay,"+req.getBody().hashCode()+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
 
         return res;
     }

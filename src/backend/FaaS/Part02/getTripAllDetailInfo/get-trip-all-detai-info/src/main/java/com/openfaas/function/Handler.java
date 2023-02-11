@@ -16,12 +16,14 @@ public class Handler implements com.openfaas.model.IHandler {
     private TravelService travelService = new TravelServiceImpl();
 
     public IResponse Handle(IRequest req) {
+        long startTime=System.currentTimeMillis(); 
         TripAllDetailInfo info= JsonUtils.json2Object(req.getBody(),TripAllDetailInfo.class);
         mResponse mRes = travelService.getTripAllDetailInfo(info);
 
         Response res = new Response();
         res.setBody(JsonUtils.object2Json(mRes));
-
+        long duration = System.currentTimeMillis() - startTime;
+        System.out.println("FunctionLog: getTripAllDetailInfo,"+req.getBody().hashCode()+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
 	    return res;
     }
 }

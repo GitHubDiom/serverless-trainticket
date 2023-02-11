@@ -32,6 +32,7 @@ public class Handler implements com.openfaas.model.IHandler {
     private TokenService tokenService = new TokenServiceImpl();
 
     public IResponse Handle(IRequest req) {
+        long startTime=System.currentTimeMillis(); 
         BasicAuthDto dao = JsonUtils.json2Object(req.getBody(), BasicAuthDto.class);
         mResponse mRes = tokenService.getToken(dao);
 
@@ -40,6 +41,8 @@ public class Handler implements com.openfaas.model.IHandler {
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Access-Control-Allow-Methods", "POST");
         res.setHeader("Access-Control-Allow-Headers", "x-requested-with,content-type");
+        long duration = System.currentTimeMillis() - startTime;
+        System.out.println("FunctionLog: getToken,"+req.getBody().hashCode()+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
         return res;
     }
 }

@@ -29,7 +29,7 @@ public class Handler implements com.openfaas.model.IHandler {
     private TrainService trainService = new TrainServiceImpl();
 
     public IResponse Handle(IRequest req) {
-
+        long startTime=System.currentTimeMillis(); 
         String trainTypeId = req.getPath().get("trainTypeId");
 
         TrainType trainType = trainService.retrieve(trainTypeId);
@@ -43,7 +43,9 @@ public class Handler implements com.openfaas.model.IHandler {
 
         Response res = new Response();
         res.setBody(JsonUtils.object2Json(mRes));
-
+        int inputHash = trainTypeId.hashCode();
+        long duration = System.currentTimeMillis() - startTime;
+        System.out.println("FunctionLog: getTrainTypeByTrainTypeId,"+inputHash+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
         return res;
     }
 }

@@ -29,7 +29,7 @@ public class Handler implements com.openfaas.model.IHandler {
     private OrderService orderService = new OrderServiceImpl();
 
     public IResponse Handle(IRequest req) {
-
+        long startTime=System.currentTimeMillis(); 
         String travelDateStr = req.getPath().get("travelDate");
         Date travelDate = new Date(travelDateStr);
 
@@ -39,7 +39,9 @@ public class Handler implements com.openfaas.model.IHandler {
 
         Response res = new Response();
         res.setBody(JsonUtils.object2Json(mRes));
-
+        int inputHash = travelDateStr.concat(trainNumber).hashCode();
+        long duration = System.currentTimeMillis() - startTime;
+        System.out.println("FunctionLog: queryAlreadySoldOrders,"+inputHash+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
         return res;
     }
 }

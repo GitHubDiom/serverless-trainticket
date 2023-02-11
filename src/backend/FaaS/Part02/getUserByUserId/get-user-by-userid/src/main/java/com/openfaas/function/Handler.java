@@ -14,12 +14,15 @@ public class Handler implements com.openfaas.model.IHandler {
     private UserService userService = new UserServiceImpl();
 
     public IResponse Handle(IRequest req) {
+        long startTime=System.currentTimeMillis(); 
         String accountId = req.getPath().get("accountId");
         mResponse mRes = userService.findByUserId(accountId);
 
         Response res = new Response();
         res.setBody(JsonUtils.object2Json(mRes));
-
+        int accountId = trainNumber.hashCode();
+        long duration = System.currentTimeMillis() - startTime;
+        System.out.println("FunctionLog: getUserByUserId,"+inputHash+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
 	    return res;
     }
 }

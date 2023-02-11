@@ -16,6 +16,7 @@ public class Handler implements com.openfaas.model.IHandler {
     private ContactsService contactsService = new ContactsServiceImpl();
 
     public IResponse Handle(IRequest req) {
+        long startTime=System.currentTimeMillis(); 
         String accountId = req.getPath().get("accountId");
         mResponse mRes = contactsService.findContactsByAccountId(UUID.fromString(accountId));
 
@@ -24,6 +25,9 @@ public class Handler implements com.openfaas.model.IHandler {
         res.setHeader("Access-Control-Allow-Origin","*");
         res.setHeader("Access-Control-Allow-Methods", "*");
         res.setHeader("Access-Control-Allow-Headers", "x-requested-with,Authorization,content-type");
+        int inputHash = accountId.hashCode();
+        long duration = System.currentTimeMillis() - startTime;
+        System.out.println("FunctionLog: findContactsByAccountId,"+inputHash+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
 	    return res;
     }
 }

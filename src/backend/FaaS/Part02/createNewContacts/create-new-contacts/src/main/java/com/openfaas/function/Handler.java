@@ -17,6 +17,7 @@ public class Handler implements com.openfaas.model.IHandler {
     private ContactsService contactsService = new ContactsServiceImpl();
 
     public IResponse Handle(IRequest req) {
+        long startTime=System.currentTimeMillis(); 
         Response res = new Response();
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Access-Control-Allow-Methods", "POST");
@@ -26,6 +27,8 @@ public class Handler implements com.openfaas.model.IHandler {
             Contacts aci = JsonUtils.json2Object(req.getBody(), Contacts.class);
             mResponse mRes = contactsService.create(aci);
             res.setBody(JsonUtils.object2Json(mRes));
+            long duration = System.currentTimeMillis() - startTime;
+            System.out.println("FunctionLog: createNewContacts,"+req.getBody().hashCode()+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
         } catch (Exception e) {
             e.printStackTrace();
         }

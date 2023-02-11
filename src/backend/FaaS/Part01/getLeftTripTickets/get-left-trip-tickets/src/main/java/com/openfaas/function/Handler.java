@@ -36,6 +36,7 @@ public class Handler implements com.openfaas.model.IHandler {
     private TravelService travelService = new TravelServiceImpl();
 
     public IResponse Handle(IRequest req) {
+        long startTime=System.currentTimeMillis(); 
         TripInfo info = JsonUtils.json2Object(req.getBody(), TripInfo.class);
         mResponse mRes = travelService.query(info);
 
@@ -44,6 +45,8 @@ public class Handler implements com.openfaas.model.IHandler {
         res.setHeader("Access-Control-Allow-Origin","*");
         res.setHeader("Access-Control-Allow-Methods", "POST");
         res.setHeader("Access-Control-Allow-Headers", "x-requested-with,content-type");
+        long duration=System.currentTimeMillis() - startTime;
+        System.out.println("FunctionLog: getLeftTripTickets,"+req.getBody().hashCode()+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
         return res;
     }
 }
