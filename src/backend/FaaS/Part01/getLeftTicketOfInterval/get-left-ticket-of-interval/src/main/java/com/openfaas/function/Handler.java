@@ -33,7 +33,7 @@ public class Handler implements com.openfaas.model.IHandler {
 
         Response res = new Response();
         res.setBody(JsonUtils.object2Json(mRes));
-        long duration = System.currentTimeMillis() = startTime; 
+        long duration = System.currentTimeMillis() - startTime; 
         System.out.println("FunctionLog: getLeftTicketOfInterval,"+req.getBody().hashCode()+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
         return res;
     }
