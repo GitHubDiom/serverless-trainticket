@@ -55,9 +55,10 @@ function refresh_booking_contacts() {
     $("#refresh_booking_contacts_button").attr("disabled", true);
     $.ajax({
         type: "get",
-        url: "/function/find-contacts-by-accountid.openfaas-fn/accountId/" + sessionStorage.getItem("client_id"),
-        contentType: "text/plain",
-        dataType: "json",
+        // url: "/function/find-contacts-by-accountid.openfaas-fn/accountId/" + sessionStorage.getItem("client_id"),
+        url: "/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/contacts/findContactsByAccountId/" + sessionStorage.getItem("client_id"),
+        // contentType: "text/plain",
+        // dataType: "json",
         headers: {"Authorization": "Bearer " + sessionStorage.getItem("client_token")},
         xhrFields: {
             withCredentials: true
