@@ -115,8 +115,8 @@ var reserveApp = new Vue({
                 this.queryForTravelInfo(travelQueryData, "/function/get-left-trip-tickets.openfaas-fn");
                 // this.queryForTravelInfo(travelQueryData, "/api/v1/travel2service/trips/left");
             } else if (train_type == 1) {
-
-                this.queryForTravelInfo(travelQueryData, "/function/get-left-trip-tickets.openfaas-fn");
+                this.queryForTravelInfo(travelQueryData, "/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/tickets/getLeft");
+                // this.queryForTravelInfo(travelQueryData, "/function/get-left-trip-tickets.openfaas-fn");
                 console.log(travelQueryData);
             } else if (train_type == 2) {
                 this.queryForTravelInfo(travelQueryData, "/function/get-left-trip-tickets.openfaas-fn");
@@ -130,7 +130,8 @@ var reserveApp = new Vue({
             $.ajax({
                 type: "post",
                 url: path,
-                contentType: "text/plain",
+                // contentType: "text/plain",
+                contentType: "application/json",
                 dataType: "json",
                 data: data,
                 xhrFields: {

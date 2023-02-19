@@ -449,7 +449,8 @@ var appConsign = new Vue({
 
             this.tempSearchRoutes = [];
             this.searchRoutes = [];
-            this.queryForTravelInfo(travelQueryData, "http://gateway.openfaas:8080/function/get-left-trip-tickets.openfaas-fn");
+            // this.queryForTravelInfo(travelQueryData, "http://gateway.openfaas:8080/function/get-left-trip-tickets.openfaas-fn");
+            this.queryForTravelInfo(travelQueryData, "http://owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/tickets/getLeft");
         },
         checkNum(num) {
             if (num == "") {
