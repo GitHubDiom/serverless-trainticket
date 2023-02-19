@@ -50,14 +50,16 @@ var appConsign = new Vue({
 
             this.myOrderList = [];
             var myOrdersQueryData = JSON.stringify(myOrdersQueryInfo);
-            this.queryForMyOrderThree("/function/query-orders-for-refresh.openfaas-fn", myOrdersQueryData);
+            // this.queryForMyOrderThree("/function/query-orders-for-refresh.openfaas-fn", myOrdersQueryData);
+            this.queryForMyOrderThree("/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/orders/queryOrdersForRefresh", myOrdersQueryData);
+            
         },
         queryForMyOrderThree(path, data) {
             var that = this;
             $.ajax({
                 type: "post",
                 url: path,
-                contentType: "text/plain",
+                contentType: "application/json",
                 dataType: "json",
                 data: data,
                 headers: {"Authorization": "Bearer " + sessionStorage.getItem("client_token")},
