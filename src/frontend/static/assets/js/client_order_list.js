@@ -175,7 +175,8 @@ var appConsign = new Vue({
             $('#my-svg-change-order').shCircleLoader({namespace: 'runLoad'});
             $.ajax({
                 type: "get",
-                url: "/function/calculate-refund.openfaas-fn/orderId/" + orderId,
+                // url: "/function/calculate-refund.openfaas-fn/orderId/" + orderId,
+                url: "/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/order/calculateRefund/" + orderId,
                 contentType: "text/plain",
                 dataType: "json",
                 headers: {"Authorization": "Bearer " + sessionStorage.getItem("client_token")},
