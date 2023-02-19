@@ -312,7 +312,8 @@ $("#ticket_select_contacts_confirm_btn").click(function () {
                 console.log("orderTicketsData:");
                 console.log(orderTicketsData);
 
-                path = "function/preserve-ticket.openfaas-fn";
+                // path = "function/preserve-ticket.openfaas-fn";
+                path = "/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/tickets/preserveTickets";
                 // path = "http://127.0.0.1:8094";
 
 
@@ -321,7 +322,7 @@ $("#ticket_select_contacts_confirm_btn").click(function () {
                 $.ajax({
                     type: "post",
                     url: path,
-                    contentType: "text/plain",
+                    contentType: "application/json",
                     dataType: "json",
                     data: orderTicketsData,
                     headers: {"Authorization": "Bearer " + sessionStorage.getItem("client_token")},
