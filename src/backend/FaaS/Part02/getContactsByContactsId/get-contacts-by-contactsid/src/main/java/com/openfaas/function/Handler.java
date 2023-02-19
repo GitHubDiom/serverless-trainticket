@@ -21,8 +21,8 @@ public class Handler implements com.openfaas.model.IHandler {
 
         Response res = new Response();
         res.setBody(JsonUtils.object2Json(mRes));
-        int contactsId = trainNumber.hashCode();
         long duration = System.currentTimeMillis() - startTime;
+        int inputHash = contactsId.hashCode();
         System.out.println("FunctionLog: getContactsByContactsId,"+inputHash+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);
         return res;
     }
