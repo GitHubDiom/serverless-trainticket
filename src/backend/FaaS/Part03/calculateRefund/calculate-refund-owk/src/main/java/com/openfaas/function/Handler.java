@@ -25,7 +25,7 @@ public class Handler {
         try {
             System.out.println("args: "+args);
             String owPath = args.get("__ow_path").getAsString();
-            String orderId = owPath.substring(owPath.lastIndexOf("/")+1);;
+            String orderId = owPath.substring(owPath.lastIndexOf("/")+1);
 
             mResponse mRes = cancelService.calculateRefund(orderId);
             
