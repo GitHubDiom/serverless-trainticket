@@ -20,7 +20,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository = new OrderRepositoryImpl();
     private OkHttpClient client = new OkHttpClient();
 
-    String function44_URI = "gateway.openfaas:8080/function/get-stationid-list-by-name-list.openfaas-fn";
+    // String function44_URI = "gateway.openfaas:8080/function/get-stationid-list-by-name-list.openfaas-fn";
+    String function44_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/station/getStationIdListByNameList";
 
 
     String success = "Success";
@@ -124,7 +125,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);
-
+            System.out.println("Invoking http://" + function44_URI + "Body: " +json);
             okhttp3.Request request = new okhttp3.Request.Builder()
                     .url("http://" + function44_URI)
                     .post(body)
