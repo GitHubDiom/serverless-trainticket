@@ -20,9 +20,12 @@ public class CancelServiceImpl implements CancelService {
 
     private OkHttpClient client = new OkHttpClient();
 
-    String function23_URI = "gateway.openfaas:8080/function/get-order-by-id.openfaas-fn";
-    String function28_URI = "gateway.openfaas:8080/function/drawback.openfaas-fn";
-    String function29_URI = "gateway.openfaas:8080/function/save-order-info.openfaas-fn";
+    // String function23_URI = "gateway.openfaas:8080/function/get-order-by-id.openfaas-fn";
+    String function23_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/order/getOrderById";
+    // String function28_URI = "gateway.openfaas:8080/function/drawback.openfaas-fn";
+    String function28_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/order/drawback";
+    // String function29_URI = "gateway.openfaas:8080/function/save-order-info.openfaas-fn";
+    String function29_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/order/saveOrderInfo";
 //    private static final Logger LOGGER = LoggerFactory.getLogger(CancelServiceImpl.class);
 
     String orderStatusCancelNotPermitted = "Order Status Cancel Not Permitted";
@@ -149,6 +152,7 @@ public class CancelServiceImpl implements CancelService {
                     .build();
 
             okhttp3.Response response = client.newCall(request).execute();
+            System.out.println(function29_URI+" response: "+response);
             ret = response.body().string();
         } catch (Exception e) {
             e.printStackTrace();
@@ -162,11 +166,13 @@ public class CancelServiceImpl implements CancelService {
         String ret = "";
         try {
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function28_URI + "/userId/" + userId+ "/money/" + money)
+                    // .url("http://" + function28_URI + "/userId/" + userId+ "/money/" + money)
+                    .url("http://" + function28_URI + "/" + userId+ "/" + money)
                     .get()
                     .build();
 
             okhttp3.Response response = client.newCall(request).execute();
+            System.out.println(function28_URI+" response: "+response);
             ret = response.body().string();
 
         } catch (Exception e) {
@@ -195,11 +201,13 @@ public class CancelServiceImpl implements CancelService {
         String ret = "";
         try {
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function23_URI + "/orderId/" + orderId)
+                    // .url("http://" + function23_URI + "/orderId/" + orderId)
+                    .url("http://" + function23_URI + "/" + orderId)
                     .get()
                     .build();
 
             okhttp3.Response response = client.newCall(request).execute();
+            System.out.println("Invoking http://" + function23_URI + "/" + orderId+", response: "+response);
             ret = response.body().string();
 
         } catch (Exception e) {
