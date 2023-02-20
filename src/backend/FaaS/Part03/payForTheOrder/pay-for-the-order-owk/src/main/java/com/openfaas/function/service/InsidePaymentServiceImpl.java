@@ -25,9 +25,13 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
     private OkHttpClient client = new OkHttpClient();
 
-    String function23_URI = "gateway.openfaas:8080/function/get-order-by-id.openfaas-fn";
-    String function24_URI = "gateway.openfaas:8080/function/modify-order.openfaas-fn";
-    String function25_URI = "gateway.openfaas:8080/function/create-third-party-payment-and-pay.openfaas-fn";
+    // String function23_URI = "gateway.openfaas:8080/function/get-order-by-id.openfaas-fn";
+    String function23_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/order/getOrderById";
+    // String function24_URI = "gateway.openfaas:8080/function/modify-order.openfaas-fn";
+    String function24_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/orders/modifyOrder/";
+    // String function25_URI = "gateway.openfaas:8080/function/create-third-party-payment-and-pay.openfaas-fn";
+    String function25_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/payment/createThirdPartyPaymentAndPay";
+
 
     @Override
     public mResponse pay(PaymentInfo info) {
@@ -37,7 +41,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
         String ret = "";
         try {
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function23_URI + "/orderId/" + info.getOrderId())
+                    .url("http://" + function23_URI + "/" + info.getOrderId())
                     .get()
                     .build();
 
@@ -137,7 +141,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
         String ret = "";
         try {
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function24_URI + "/orderId/" + orderId+ "/orderStatus/" + orderStatus)
+                    .url("http://" + function24_URI + "/" + orderId+ "/" + orderStatus)
                     .get()
                     .build();
 
