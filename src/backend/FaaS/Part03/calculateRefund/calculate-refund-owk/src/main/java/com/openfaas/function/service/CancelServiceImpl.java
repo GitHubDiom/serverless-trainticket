@@ -17,7 +17,8 @@ public class CancelServiceImpl implements CancelService {
 
     //    private static final Logger LOGGER = LoggerFactory.getLogger(CancelServiceImpl.class);
     private OkHttpClient client = new OkHttpClient();
-    String function23_URI = "gateway.openfaas:8080/function/get-order-by-id.openfaas-fn";
+    // String function23_URI = "gateway.openfaas:8080/function/get-order-by-id.openfaas-fn";
+    String function23_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/order/getOrderById";
 
 
     @Override
@@ -86,7 +87,7 @@ public class CancelServiceImpl implements CancelService {
         String ret = "";
         try {
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function23_URI + "/orderId/" + orderId)
+                    .url("http://" + function23_URI + "/" + orderId)
                     .get()
                     .build();
 
