@@ -53,6 +53,7 @@ import org.bson.Document;
 
         JsonObject body = gson.fromJson(JsonUtils.object2Json(mRes), JsonObject.class);
         res.add("body", body);
+        System.out.println("res: "+res);
         int inputHash = stationName.hashCode();
         long duration = System.currentTimeMillis() - startTime;
         System.out.println("FunctionLog: queryForStationIdByStationName,"+inputHash+","+JsonUtils.object2Json(mRes).hashCode()+","+duration);

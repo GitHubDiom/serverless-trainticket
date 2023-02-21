@@ -25,12 +25,23 @@ public class TravelServiceImpl implements TravelService {
     String success = "Success";
     String noContent = "No Content";
 
-    String function02_URI = "gateway.openfaas:8080/function/query-for-travel.openfaas-fn";
-    String function03_URI = "gateway.openfaas:8080/function/get-route-by-routeid.openfaas-fn";
-    String function04_URI = "gateway.openfaas:8080/function/get-traintype-by-traintypeid.openfaas-fn";
-    String function06_URI = "gateway.openfaas:8080/function/query-already-sold-orders.openfaas-fn";
-    String function07_URI = "gateway.openfaas:8080/function/query-for-station-id-by-station-name.openfaas-fn";
-    String function08_URI = "gateway.openfaas:8080/function/get-left-ticket-of-interval.openfaas-fn";
+    // String function02_URI = "gateway.openfaas:8080/function/query-for-travel.openfaas-fn";
+    String function02_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/travel/queryForTravel";
+
+    // String function03_URI = "gateway.openfaas:8080/function/get-route-by-routeid.openfaas-fn";
+    String function03_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/route/getRouteByRouteId";
+
+    // String function04_URI = "gateway.openfaas:8080/function/get-traintype-by-traintypeid.openfaas-fn";
+    String function04_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/traintype/getTrainTypeByTrainTypeId";
+
+    // String function06_URI = "gateway.openfaas:8080/function/query-already-sold-orders.openfaas-fn";
+    String function06_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/order/queryAlreadySoldOrders";
+
+    // String function07_URI = "gateway.openfaas:8080/function/query-for-station-id-by-station-name.openfaas-fn";
+    String function07_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/stationId/queryForStationIdByStationName";
+
+    // String function08_URI = "gateway.openfaas:8080/function/get-left-ticket-of-interval.openfaas-fn";
+    String function08_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/ticket/getLeftTicketOfInterval";
 
     @Override
     public mResponse query(TripInfo info) {
@@ -79,7 +90,7 @@ public class TravelServiceImpl implements TravelService {
         try {
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);
-
+            System.out.println("Invoking url: "+"http://" + function02_URI);
             okhttp3.Request request = new okhttp3.Request.Builder()
                     .url("http://" + function02_URI)
                     .post(body)
@@ -95,8 +106,9 @@ public class TravelServiceImpl implements TravelService {
 
 
         try {
+            System.out.println("Invoking url: "+"http://" + function06_URI + "/" + departureTime + "/" + trip.getTripId().toString());
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function06_URI + "/travelDate/" + departureTime + "/trainNumber/" + trip.getTripId().toString())
+                    .url("http://" + function06_URI + "/" + departureTime + "/" + trip.getTripId().toString())
                     .get()
                     .build();
 
@@ -181,8 +193,9 @@ public class TravelServiceImpl implements TravelService {
     private TrainType getTrainType(String trainTypeId) {
         String ret = "";
         try {
+            System.out.println("Invoking url: "+"http://" + function04_URI + "/" + trainTypeId);
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function04_URI + "/trainTypeId/" + trainTypeId)
+                    .url("http://" + function04_URI + "/" + trainTypeId)
                     .get()
                     .build();
 
@@ -205,13 +218,15 @@ public class TravelServiceImpl implements TravelService {
     private String queryForStationId(String stationName) {
         String ret = "";
         try {
+            System.out.println("Invoking url: "+"http://" + function07_URI + "/" + stationName);
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function07_URI + "/stationName/" + stationName)
+                    .url("http://" + function07_URI + "/" + stationName)
                     .get()
                     .build();
 
             okhttp3.Response response = client.newCall(request).execute();
             ret = response.body().string();
+            System.out.println("function07_URI res: "+ret);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -228,13 +243,16 @@ public class TravelServiceImpl implements TravelService {
     private Route getRouteByRouteId(String routeId) {
         String ret = "";
         try {
+            System.out.println("Invoking url: "+"http://" + function03_URI + "/" + routeId);
+
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function03_URI + "/routeId/" + routeId)
+                    .url("http://" + function03_URI + "/" + routeId)
                     .get()
                     .build();
 
             okhttp3.Response response = client.newCall(request).execute();
             ret = response.body().string();
+            System.out.println("function03_URI ret: "+ret);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -267,7 +285,7 @@ public class TravelServiceImpl implements TravelService {
         try {
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);
-
+            System.out.println("Invoking url: "+"http://" + function08_URI);
             okhttp3.Request request = new okhttp3.Request.Builder()
                     .url("http://" + function08_URI)
                     .post(body)

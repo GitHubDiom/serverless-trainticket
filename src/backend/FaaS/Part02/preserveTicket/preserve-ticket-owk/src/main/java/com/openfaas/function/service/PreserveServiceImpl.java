@@ -19,16 +19,33 @@ public class PreserveServiceImpl implements PreserveService {
 
     private OkHttpClient client = new OkHttpClient();
 
-    String function02_URI = "gateway.openfaas:8080/function/query-for-travel.openfaas-fn";
-    String function07_URI = "gateway.openfaas:8080/function/query-for-station-id-by-station-name.openfaas-fn";
+    // String function02_URI = "gateway.openfaas:8080/function/query-for-travel.openfaas-fn";
+    String function02_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/travel/queryForTravel";
 
-    String function14_URI = "gateway.openfaas:8080/function/check-security.openfaas-fn";
-    String function15_URI = "gateway.openfaas:8080/function/get-user-by-userid.openfaas-fn";
-    String function16_URI = "gateway.openfaas:8080/function/dipatch-seat.openfaas-fn";
-    String function17_URI = "127.0.0.1:8098";
-    String function18_URI = "gateway.openfaas:8080/function/get-trip-all-detai-info.openfaas-fn";
-    String function19_URI = "gateway.openfaas:8080/function/get-contacts-by-contactsid.openfaas-fn";
-    String function20_URI = "gateway.openfaas:8080/function/create-order.openfaas-fn";
+    // String function07_URI = "gateway.openfaas:8080/function/query-for-station-id-by-station-name.openfaas-fn";
+    String function07_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/stationId/queryForStationIdByStationName";
+
+
+    // String function14_URI = "gateway.openfaas:8080/function/check-security.openfaas-fn";
+    String function14_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/account/checkSecurity";
+
+    // String function15_URI = "gateway.openfaas:8080/function/get-user-by-userid.openfaas-fn";
+    String function15_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/user/getUserByUserId";
+
+    // String function16_URI = "gateway.openfaas:8080/function/dipatch-seat.openfaas-fn";
+    String function16_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/seat/dipatchSeat";
+
+    String function17_URI = "127.0.0.1:8098"; // It seems useless
+
+    // String function18_URI = "gateway.openfaas:8080/function/get-trip-all-detai-info.openfaas-fn";
+    String function18_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/trip/getTripAllDetailInfo";
+
+    // String function19_URI = "gateway.openfaas:8080/function/get-contacts-by-contactsid.openfaas-fn";
+    String function19_URI = "owdev-apigateway.openwhisk:8080/function/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/contact/getContactsByContactsId";
+
+    // String function20_URI = "gateway.openfaas:8080/function/create-order.openfaas-fn";
+    String function20_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/order/createOrder";
+
 
 
     @Override
@@ -209,7 +226,7 @@ public class PreserveServiceImpl implements PreserveService {
         String ret = "";
         try {
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function15_URI + "/accountId/" + accountId)
+                    .url("http://" + function15_URI + "/" + accountId)
                     .get()
                     .build();
 
@@ -239,7 +256,7 @@ public class PreserveServiceImpl implements PreserveService {
         String ret = "";
         try {
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function07_URI + "/stationName/" + stationName)
+                    .url("http://" + function07_URI + "/" + stationName)
                     .get()
                     .build();
 
@@ -262,7 +279,7 @@ public class PreserveServiceImpl implements PreserveService {
         String ret = "";
         try {
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function14_URI + "/accountId/" + accountId)
+                    .url("http://" + function14_URI + "/" + accountId)
                     .get()
                     .build();
 
@@ -301,7 +318,7 @@ public class PreserveServiceImpl implements PreserveService {
         String ret = "";
         try {
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function19_URI + "/contactsId/" + contactsId)
+                    .url("http://" + function19_URI + "/" + contactsId)
                     .get()
                     .build();
 

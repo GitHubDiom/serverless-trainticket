@@ -1,3 +1,4 @@
+set -e
 gradle clean
 gradle shadowJar
 
