@@ -4,6 +4,7 @@ buildFunction(){
     func_dir=$1
     echo "BUILDING $func_dir..."
     cd $func_dir
+    rm -rf .gradle
     owk_function_dir=$(find ./ -name "*owk")
     cd $owk_function_dir
     bash build-action.sh 2>&1 > /dev/null
