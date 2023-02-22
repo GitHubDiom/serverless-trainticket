@@ -15,6 +15,8 @@ import com.google.gson.Gson;
 import edu.fudan.common.util.JsonUtils;
 import edu.fudan.common.util.mResponse;
 import org.bson.Document;
+import java.net.URLDecoder;
+import java.io.UnsupportedEncodingException;
 
 
 /**
@@ -41,8 +43,14 @@ import org.bson.Document;
         MongoCollection<Document> collection = database.getCollection("station");
         System.out.println("success");
 
-
-        String owPath = args.get("__ow_path").getAsString();
+        String owPathRaw = args.get("__ow_path").getAsString();
+        String owPath = "";
+        try {
+            String owPathTmp = URLDecoder.decode(owPathRaw, "utf-8");
+            owPath = URLDecoder.decode(owPathTmp, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         String stationName = owPath.substring(owPath.lastIndexOf("/")+1);
 
         // String stationName = req.getPath().get("stationName");
