@@ -9,6 +9,7 @@ import okhttp3.RequestBody;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author fdse
@@ -52,7 +53,13 @@ public class SeatServiceImpl implements SeatService {
                     .get()
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS) //连接超时
+                .readTimeout(60, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(60, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
 
         } catch (Exception e) {
@@ -72,7 +79,13 @@ public class SeatServiceImpl implements SeatService {
                     .post(body)
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS) //连接超时
+                .readTimeout(60, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(60, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,7 +101,13 @@ public class SeatServiceImpl implements SeatService {
                     .get()
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS) //连接超时
+                .readTimeout(60, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(60, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
 
         } catch (Exception e) {

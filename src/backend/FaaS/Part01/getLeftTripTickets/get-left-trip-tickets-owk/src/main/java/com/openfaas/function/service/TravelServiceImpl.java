@@ -13,6 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author fdse
@@ -96,7 +97,12 @@ public class TravelServiceImpl implements TravelService {
                     .post(body)
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS) //连接超时
+                .readTimeout(60, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(60, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,7 +118,12 @@ public class TravelServiceImpl implements TravelService {
                     .get()
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                    .connectTimeout(60, TimeUnit.SECONDS) //连接超时
+                    .readTimeout(60, TimeUnit.SECONDS) //读取超时
+                    .writeTimeout(60, TimeUnit.SECONDS) //写超时
+                    .build()
+                    .newCall(request).execute();
             ret = response.body().string();
 
         } catch (Exception e) {
@@ -291,7 +302,13 @@ public class TravelServiceImpl implements TravelService {
                     .post(body)
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                    .connectTimeout(60, TimeUnit.SECONDS) //连接超时
+                    .readTimeout(60, TimeUnit.SECONDS) //读取超时
+                    .writeTimeout(60, TimeUnit.SECONDS) //写超时
+                    .build()
+                    .newCall(request).execute();
             ret = response.body().string();
         } catch (Exception e) {
             e.printStackTrace();
