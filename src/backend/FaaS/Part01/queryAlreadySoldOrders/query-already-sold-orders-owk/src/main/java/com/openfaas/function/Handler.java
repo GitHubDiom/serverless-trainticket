@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * function6 queryAlreadySoldOrders
  * query sold tickets
- * Http Method : GET
+ * Http Method : POST
  * <p>
  * 原API地址：/api/v1/orderservice/order/{travelDate}/{trainNumber}
  * <p>
@@ -28,10 +28,13 @@ import java.util.Date;
     public static JsonObject main(JsonObject args) {                
         long startTime=System.currentTimeMillis(); 
 
-        String owPath = args.get("__ow_path").getAsString();
-        int secondLastSlashIndex = owPath.lastIndexOf("/", owPath.lastIndexOf("/")-1);
-        String travelDateStr = owPath.substring(secondLastSlashIndex+1, owPath.lastIndexOf("/"));
-        String trainNumber = owPath.substring(owPath.lastIndexOf("/")+1);
+        // String owPath = args.get("__ow_path").getAsString();
+        // int secondLastSlashIndex = owPath.lastIndexOf("/", owPath.lastIndexOf("/")-1);
+        // String travelDateStr = owPath.substring(secondLastSlashIndex+1, owPath.lastIndexOf("/"));
+        // String trainNumber = owPath.substring(owPath.lastIndexOf("/")+1);
+
+        String travelDateStr = args.get("travelDate").getAsString();
+        String trainNumber = args.get("trainNumber").getAsString();
 
         // String travelDateStr = req.getPath().get("travelDate");
         Date travelDate = new Date(travelDateStr);
@@ -41,9 +44,7 @@ import java.util.Date;
         mResponse mRes = orderService.queryAlreadySoldOrders(travelDate, trainNumber);
 
         Gson gson = new Gson();
-        JsonObject res = new JsonObject();
-        JsonObject body = gson.fromJson(JsonUtils.object2Json(mRes), JsonObject.class);
-        res.add("body", body);
+        JsonObject res = gson.fromJson(JsonUtils.object2Json(mRes), JsonObject.class);
 
         int inputHash = travelDateStr.concat(trainNumber).hashCode();
         long duration = System.currentTimeMillis() - startTime;

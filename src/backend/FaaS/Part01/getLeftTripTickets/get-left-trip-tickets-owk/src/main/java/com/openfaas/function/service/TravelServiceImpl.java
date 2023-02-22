@@ -7,6 +7,9 @@ import edu.fudan.common.util.mResponse;
 import com.openfaas.function.entity.*;
 import com.openfaas.function.repository.TripRepository;
 
+import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -62,12 +65,14 @@ public class TravelServiceImpl implements TravelService {
                     tempRoute.getStations().contains(endPlaceId) &&
                     tempRoute.getStations().indexOf(startingPlaceId) < tempRoute.getStations().indexOf(endPlaceId)) {
                 TripResponse response = getTickets(tempTrip, tempRoute, startingPlaceId, endPlaceId, startingPlaceName, endPlaceName, info.getDepartureTime());
+                System.out.println("Iam here 2");
                 if (response == null) {
                     return new mResponse<>(0, "No Trip info content", null);
                 }
                 list.add(response);
             }
         }
+        System.out.println("Iam here 1");
         return new mResponse<>(1, success, list);
 
     }
@@ -98,9 +103,9 @@ public class TravelServiceImpl implements TravelService {
                     .build();
 
             okhttp3.Response response = new OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.SECONDS) //连接超时
-                .readTimeout(60, TimeUnit.SECONDS) //读取超时
-                .writeTimeout(60, TimeUnit.SECONDS) //写超时
+                .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(500, TimeUnit.SECONDS) //写超时
                 .build()
                 .newCall(request).execute();
             ret = response.body().string();
@@ -110,25 +115,53 @@ public class TravelServiceImpl implements TravelService {
         mResponse mRes = JsonUtils.json2Object(ret, mResponse.class);
         TravelResult resultForTravel = JsonUtils.conveterObject(mRes.getData(), TravelResult.class);
 
-
+        // @TODO 
+        // GET request to POST request
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("travelDate", departureTime+"");
+        jsonObject.addProperty("trainNumber", trip.getTripId().toString());
+        Gson gson = new Gson();
+        String travelJson = gson.toJson(jsonObject);
+        System.out.println("travelJson: "+travelJson);
         try {
-            System.out.println("Invoking url: "+"http://" + function06_URI + "/" + departureTime + "/" + trip.getTripId().toString());
+            RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json"), travelJson);
+            System.out.println("Invoking Url: http://"+function06_URI);
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function06_URI + "/" + departureTime + "/" + trip.getTripId().toString())
-                    .get()
+                    .url("http://" + function06_URI)
+                    .post(body)
                     .build();
 
             okhttp3.Response response = new OkHttpClient.Builder()
-                    .connectTimeout(60, TimeUnit.SECONDS) //连接超时
-                    .readTimeout(60, TimeUnit.SECONDS) //读取超时
-                    .writeTimeout(60, TimeUnit.SECONDS) //写超时
+                    .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                    .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                    .writeTimeout(500, TimeUnit.SECONDS) //写超时
                     .build()
                     .newCall(request).execute();
             ret = response.body().string();
-
-        } catch (Exception e) {
+            System.out.println("function06_URI result: "+ret);
+        } catch (Exception e){
             e.printStackTrace();
         }
+
+        // try {
+        //     System.out.println("Invoking url: "+"http://" + function06_URI + "/" + departureTime + "/" + trip.getTripId().toString());
+        //     okhttp3.Request request = new okhttp3.Request.Builder()
+        //             .url("http://" + function06_URI + "/" + departureTime + "/" + trip.getTripId().toString())
+        //             .get()
+        //             .build();
+
+        //     okhttp3.Response response = new OkHttpClient.Builder()
+        //             .connectTimeout(60, TimeUnit.SECONDS) //连接超时
+        //             .readTimeout(60, TimeUnit.SECONDS) //读取超时
+        //             .writeTimeout(60, TimeUnit.SECONDS) //写超时
+        //             .build()
+        //             .newCall(request).execute();
+        //     ret = response.body().string();
+
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
 
         mResponse<SoldTicket> result = JsonUtils.json2Object(ret, mResponse.class);
 
@@ -304,12 +337,13 @@ public class TravelServiceImpl implements TravelService {
 
             // okhttp3.Response response = client.newCall(request).execute();
             okhttp3.Response response = new OkHttpClient.Builder()
-                    .connectTimeout(60, TimeUnit.SECONDS) //连接超时
-                    .readTimeout(60, TimeUnit.SECONDS) //读取超时
-                    .writeTimeout(60, TimeUnit.SECONDS) //写超时
+                    .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                    .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                    .writeTimeout(500, TimeUnit.SECONDS) //写超时
                     .build()
                     .newCall(request).execute();
             ret = response.body().string();
+            System.out.println("function08_URI return: "+ret);
         } catch (Exception e) {
             e.printStackTrace();
         }
