@@ -10,6 +10,7 @@ import okhttp3.RequestBody;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author fdse
@@ -41,7 +42,7 @@ public class PreserveServiceImpl implements PreserveService {
     String function18_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/trip/getTripAllDetailInfo";
 
     // String function19_URI = "gateway.openfaas:8080/function/get-contacts-by-contactsid.openfaas-fn";
-    String function19_URI = "owdev-apigateway.openwhisk:8080/function/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/contact/getContactsByContactsId";
+    String function19_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/contact/getContactsByContactsId";
 
     // String function20_URI = "gateway.openfaas:8080/function/create-order.openfaas-fn";
     String function20_URI = "owdev-apigateway.openwhisk:8080/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/order/createOrder";
@@ -120,6 +121,7 @@ public class PreserveServiceImpl implements PreserveService {
         String ret = "";
         String json = JsonUtils.object2Json(query);
         try {
+            System.out.println("invoking http://" + function02_URI);
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);
 
@@ -128,8 +130,15 @@ public class PreserveServiceImpl implements PreserveService {
                     .post(body)
                     .build();
 
-            okhttp3.Response res = client.newCall(request).execute();
+            // okhttp3.Response res = client.newCall(request).execute();
+            okhttp3.Response res = new OkHttpClient.Builder()
+                .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(500, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = res.body().string();
+            System.out.println("function02_URI return: "+ret);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -191,7 +200,13 @@ public class PreserveServiceImpl implements PreserveService {
                     .post(body)
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(500, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
         } catch (Exception e) {
             e.printStackTrace();
@@ -230,7 +245,13 @@ public class PreserveServiceImpl implements PreserveService {
                     .get()
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(500, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
 
         } catch (Exception e) {
@@ -260,7 +281,13 @@ public class PreserveServiceImpl implements PreserveService {
                     .get()
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(500, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
 
         } catch (Exception e) {
@@ -283,7 +310,13 @@ public class PreserveServiceImpl implements PreserveService {
                     .get()
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(500, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
 
         } catch (Exception e) {
@@ -298,6 +331,7 @@ public class PreserveServiceImpl implements PreserveService {
         String json = JsonUtils.object2Json(gtdi);
         System.out.println(json);
         try {
+            System.out.println("invoking http://"+function18_URI+" body: "+json);
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);
 
@@ -306,8 +340,15 @@ public class PreserveServiceImpl implements PreserveService {
                     .post(body)
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(500, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
+            System.out.println("function18_URI return: "+ret);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -317,13 +358,21 @@ public class PreserveServiceImpl implements PreserveService {
     private mResponse<Contacts> getContactsById(String contactsId) {
         String ret = "";
         try {
+            System.out.println("Invoking "+"http://" + function19_URI + "/" + contactsId);
             okhttp3.Request request = new okhttp3.Request.Builder()
                     .url("http://" + function19_URI + "/" + contactsId)
                     .get()
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(500, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
+            System.out.println("function19_URI return: "+ ret);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -343,7 +392,13 @@ public class PreserveServiceImpl implements PreserveService {
                     .post(body)
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(500, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
         } catch (Exception e) {
             e.printStackTrace();

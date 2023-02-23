@@ -42,9 +42,10 @@ public class Handler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        res.addProperty("Access-Control-Allow-Origin", "*");
-        res.addProperty("Access-Control-Allow-Methods", "POST");
-        res.addProperty("Access-Control-Allow-Headers", "x-requested-with,Authorization,content-type");
+        // res.addProperty("Access-Control-Allow-Origin", "*");
+        // res.addProperty("Access-Control-Allow-Methods", "POST");
+        // res.addProperty("Access-Control-Allow-Headers", "x-requested-with,Authorization,content-type");
+        System.out.println("result: "+res);
         return res;
     }
 }

@@ -88,6 +88,7 @@ public class TravelServiceImpl implements TravelService {
         String ret = "";
         String json = JsonUtils.object2Json(query);
         try {
+            System.out.println("Invoking http://"+function02_URI);
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);
 
@@ -96,8 +97,15 @@ public class TravelServiceImpl implements TravelService {
                     .post(body)
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(500, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
+            System.out.println("function02_URI return: "+ret);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -218,6 +226,7 @@ public class TravelServiceImpl implements TravelService {
     private TrainType getTrainType(String trainTypeId) {
         String ret = "";
         try {
+            System.out.println("Invoking http://"+function04_URI+ "/" + trainTypeId);
             okhttp3.Request request = new okhttp3.Request.Builder()
                     .url("http://" + function04_URI + "/" + trainTypeId)
                     .get()
@@ -225,7 +234,7 @@ public class TravelServiceImpl implements TravelService {
 
             okhttp3.Response response = client.newCall(request).execute();
             ret = response.body().string();
-
+            System.out.println("function04_URI return: "+ret);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -265,6 +274,7 @@ public class TravelServiceImpl implements TravelService {
     private Route getRouteByRouteId(String routeId) {
         String ret = "";
         try {
+            System.out.println("Invoking http://"+ function03_URI + "/" + routeId);
             okhttp3.Request request = new okhttp3.Request.Builder()
                     .url("http://" + function03_URI + "/" + routeId)
                     .get()
@@ -272,7 +282,7 @@ public class TravelServiceImpl implements TravelService {
 
             okhttp3.Response response = client.newCall(request).execute();
             ret = response.body().string();
-
+            System.out.println("function03_URI return: "+ret);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -300,8 +310,9 @@ public class TravelServiceImpl implements TravelService {
 
         String ret = "";
         String json = JsonUtils.object2Json(seatRequest);
-        System.out.println(json);
+        System.out.println("function08_URI JSON: "+json);
         try {
+            System.out.println("Invoking http://"+ function08_URI);
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);
 
@@ -310,8 +321,15 @@ public class TravelServiceImpl implements TravelService {
                     .post(body)
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                .writeTimeout(500, TimeUnit.SECONDS) //写超时
+                .build()
+                .newCall(request).execute();
             ret = response.body().string();
+            System.out.println("function08_URI return "+ ret);
         } catch (Exception e) {
             e.printStackTrace();
         }
