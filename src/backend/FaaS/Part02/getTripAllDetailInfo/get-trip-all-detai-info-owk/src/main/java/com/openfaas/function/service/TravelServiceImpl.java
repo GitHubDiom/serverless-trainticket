@@ -9,7 +9,11 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 
+import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author fdse
@@ -100,19 +104,45 @@ public class TravelServiceImpl implements TravelService {
         mResponse mRes = JsonUtils.json2Object(ret, mResponse.class);
         TravelResult resultForTravel = JsonUtils.conveterObject(mRes.getData(), TravelResult.class);
 
-
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("travelDate", departureTime+"");
+        jsonObject.addProperty("trainNumber", trip.getTripId().toString());
+        Gson gson = new Gson();
+        String travelJson = gson.toJson(jsonObject);
+        System.out.println("travelJson: "+travelJson);
         try {
+            RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json"), travelJson);
+            System.out.println("Invoking Url: http://"+function06_URI);
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function06_URI + "/" + departureTime + "/" + trip.getTripId().toString())
-                    .get()
+                    .url("http://" + function06_URI)
+                    .post(body)
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+                    .connectTimeout(500, TimeUnit.SECONDS) //连接超时
+                    .readTimeout(500, TimeUnit.SECONDS) //读取超时
+                    .writeTimeout(500, TimeUnit.SECONDS) //写超时
+                    .build()
+                    .newCall(request).execute();
             ret = response.body().string();
-
-        } catch (Exception e) {
+            System.out.println("function06_URI result: "+ret);
+        } catch (Exception e){
             e.printStackTrace();
         }
+
+        // try {
+        //     okhttp3.Request request = new okhttp3.Request.Builder()
+        //             .url("http://" + function06_URI + "/" + departureTime + "/" + trip.getTripId().toString())
+        //             .get()
+        //             .build();
+
+        //     okhttp3.Response response = client.newCall(request).execute();
+        //     ret = response.body().string();
+
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
 
         mResponse<SoldTicket> result = JsonUtils.json2Object(ret, mResponse.class);
 

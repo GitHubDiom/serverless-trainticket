@@ -6,7 +6,11 @@ import edu.fudan.common.util.mResponse;
 import com.openfaas.function.entity.*;
 import com.openfaas.function.repository.SecurityRepository;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.MediaType;
 
+import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,17 +51,40 @@ public class SecurityServiceImpl implements SecurityService {
 
     private OrderSecurity getSecurityOrderInfoFromOrder(Date checkDate, String accountId) {
         String ret = "";
-        try {
+        // GET request to POST request
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("checkDate", checkDate+"");
+        jsonObject.addProperty("accountId", accountId);
+        Gson gson = new Gson();
+        String orderJson = gson.toJson(jsonObject);
+        System.out.println("orderJson: "+orderJson);
+        
+        try{
+            RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json"), orderJson);
+            System.out.println("Invoking Url: http://"+function21_URI);
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://" + function21_URI + "/" + checkDate + "/" + accountId)
-                    .get()
+                    .url("http://" + function21_URI)
+                    .post(body)
                     .build();
 
             okhttp3.Response response = client.newCall(request).execute();
             ret = response.body().string();
+            System.out.println("function21_URI return"+ ret);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // try {
+        //     okhttp3.Request request = new okhttp3.Request.Builder()
+        //             .url("http://" + function21_URI + "/checkDate/" + checkDate + "/accountId/" + accountId)
+        //             .get()
+        //             .build();
+
+        // okhttp3.Response response = client.newCall(request).execute();
+        //     ret = response.body().string();
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
         mResponse mRes = JsonUtils.json2Object(ret, mResponse.class);
         OrderSecurity result = JsonUtils.conveterObject(mRes.getData(), OrderSecurity.class);
 
