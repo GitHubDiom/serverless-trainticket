@@ -115,7 +115,6 @@ public class TravelServiceImpl implements TravelService {
         mResponse mRes = JsonUtils.json2Object(ret, mResponse.class);
         TravelResult resultForTravel = JsonUtils.conveterObject(mRes.getData(), TravelResult.class);
 
-        // @TODO 
         // GET request to POST request
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("travelDate", departureTime+"");
