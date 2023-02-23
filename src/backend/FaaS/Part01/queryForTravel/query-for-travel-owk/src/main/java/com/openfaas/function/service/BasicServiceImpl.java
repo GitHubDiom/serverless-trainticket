@@ -7,8 +7,7 @@ import com.openfaas.function.entity.*;
 import java.util.HashMap;
 
 import okhttp3.OkHttpClient;
-
-
+import java.util.concurrent.TimeUnit;
 public class BasicServiceImpl implements BasicService {
     private OkHttpClient client = new OkHttpClient();
 
@@ -101,7 +100,13 @@ public class BasicServiceImpl implements BasicService {
                     .get()
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS) //连接超时
+            .readTimeout(60, TimeUnit.SECONDS) //读取超时
+            .writeTimeout(60, TimeUnit.SECONDS) //写超时
+            .build()
+            .newCall(request).execute();
             ret = response.body().string();
 
         } catch (Exception e) {
@@ -124,7 +129,13 @@ public class BasicServiceImpl implements BasicService {
                     .get()
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS) //连接超时
+            .readTimeout(60, TimeUnit.SECONDS) //读取超时
+            .writeTimeout(60, TimeUnit.SECONDS) //写超时
+            .build()
+            .newCall(request).execute();
             ret = response.body().string();
 
         } catch (Exception e) {
@@ -142,7 +153,13 @@ public class BasicServiceImpl implements BasicService {
                     .get()
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS) //连接超时
+            .readTimeout(60, TimeUnit.SECONDS) //读取超时
+            .writeTimeout(60, TimeUnit.SECONDS) //写超时
+            .build()
+            .newCall(request).execute();
             ret = response.body().string();
 
         } catch (Exception e) {
@@ -165,7 +182,13 @@ public class BasicServiceImpl implements BasicService {
                     .get()
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS) //连接超时
+            .readTimeout(60, TimeUnit.SECONDS) //读取超时
+            .writeTimeout(60, TimeUnit.SECONDS) //写超时
+            .build()
+            .newCall(request).execute();
             ret = response.body().string();
 
         } catch (Exception e) {
@@ -189,7 +212,13 @@ public class BasicServiceImpl implements BasicService {
                     .get()
                     .build();
 
-            okhttp3.Response response = client.newCall(request).execute();
+            // okhttp3.Response response = client.newCall(request).execute();
+            okhttp3.Response response = new OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS) //连接超时
+            .readTimeout(60, TimeUnit.SECONDS) //读取超时
+            .writeTimeout(60, TimeUnit.SECONDS) //写超时
+            .build()
+            .newCall(request).execute();
             ret = response.body().string();
 
         } catch (Exception e) {
