@@ -49,7 +49,9 @@ var appConsign = new Vue({
             myOrdersQueryInfo.boughtDateEnd = null;
 
             this.myOrderList = [];
-            var myOrdersQueryData = JSON.stringify(myOrdersQueryInfo);
+            var myOrdersQueryInfoPostData = new Object();
+            myOrdersQueryInfoPostData.__post_data=myOrdersQueryInfo;
+            var myOrdersQueryData = JSON.stringify(myOrdersQueryInfoPostData);
             // this.queryForMyOrderThree("/function/query-orders-for-refresh.openfaas-fn", myOrdersQueryData);
             this.queryForMyOrderThree("/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/orders/queryOrdersForRefresh", myOrdersQueryData);
             
@@ -123,7 +125,9 @@ var appConsign = new Vue({
                     info.orderId = that.orderId;
                     info.tripId = that.tripId;
                     info.userId = sessionStorage.getItem("client_id");
-                    var data = JSON.stringify(info);
+                    var infoPostData = new Object();
+                    infoPostData.__post_data = info
+                    var data = JSON.stringify(infoPostData);
                     console.log(data);
                     $.ajax({
                         type: "post",

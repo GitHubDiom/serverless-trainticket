@@ -17,13 +17,7 @@ public class Handler {
     public static JsonObject main(JsonObject args) {
         long startTime=System.currentTimeMillis(); 
         Gson gson = new Gson();
-        // There must some way to avoid these hard-code things.
-        // But I dont care ...
-        args.remove("__ow_headers");
-        args.remove("__ow_path");
-        args.remove("__ow_method");
-
-        String requestBody = gson.toJson(args);
+        String requestBody = gson.toJson(args.get("__post_data"));
         System.out.println("RequestBody: "+requestBody);
 
         TripAllDetailInfo info= JsonUtils.json2Object(requestBody, TripAllDetailInfo.class);

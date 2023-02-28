@@ -37,7 +37,7 @@ public class Handler {
 
         long startTime=System.currentTimeMillis(); 
         Gson gson = new Gson();
-        String requestBody = gson.toJson(args);
+        String requestBody = gson.toJson(args.get("__post_data"));
         System.out.println("requestBody: "+ requestBody);
         TripInfo info = JsonUtils.json2Object(requestBody, TripInfo.class);
         mResponse mRes = travelService.query(info);

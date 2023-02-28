@@ -8,6 +8,11 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 
+import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -102,6 +107,11 @@ public class PreserveServiceImpl implements PreserveService {
 
         String ret = "";
         String json = JsonUtils.object2Json(query);
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        json = gson.toJson(postData);
         try {
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);
@@ -165,6 +175,11 @@ public class PreserveServiceImpl implements PreserveService {
 
         String ret = "";
         String json = JsonUtils.object2Json(seatRequest);
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        json = gson.toJson(postData);
         try {
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);
@@ -186,6 +201,11 @@ public class PreserveServiceImpl implements PreserveService {
     public boolean sendEmail(NotifyInfo notifyInfo) {
         String ret = "";
         String json = JsonUtils.object2Json(notifyInfo);
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        json = gson.toJson(postData);
         try {
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);
@@ -279,6 +299,11 @@ public class PreserveServiceImpl implements PreserveService {
     private mResponse<TripAllDetail> getTripAllDetailInformation(TripAllDetailInfo gtdi) {
         String ret = "";
         String json = JsonUtils.object2Json(gtdi);
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        json = gson.toJson(postData);
         System.out.println(json);
         try {
             RequestBody body = RequestBody.create(
@@ -317,6 +342,11 @@ public class PreserveServiceImpl implements PreserveService {
     private mResponse createOrder(Order coi) {
         String ret = "";
         String json = JsonUtils.object2Json(coi);
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        json = gson.toJson(postData);
         try {
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);

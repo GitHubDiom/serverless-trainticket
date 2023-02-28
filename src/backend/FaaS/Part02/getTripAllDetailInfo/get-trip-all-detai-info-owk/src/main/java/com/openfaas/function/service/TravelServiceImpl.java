@@ -87,6 +87,11 @@ public class TravelServiceImpl implements TravelService {
 
         String ret = "";
         String json = JsonUtils.object2Json(query);
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        json = gson.toJson(postData);
         try {
             System.out.println("Invoking http://"+function02_URI);
             RequestBody body = RequestBody.create(
@@ -112,11 +117,12 @@ public class TravelServiceImpl implements TravelService {
         mResponse mRes = JsonUtils.json2Object(ret, mResponse.class);
         TravelResult resultForTravel = JsonUtils.conveterObject(mRes.getData(), TravelResult.class);
 
-        JsonObject jsonObject = new JsonObject();
+        jsonObject = new JsonObject();
         jsonObject.addProperty("travelDate", departureTime+"");
         jsonObject.addProperty("trainNumber", trip.getTripId().toString());
-        Gson gson = new Gson();
-        String travelJson = gson.toJson(jsonObject);
+        postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        String travelJson = gson.toJson(postData);
         System.out.println("travelJson: "+travelJson);
         try {
             RequestBody body = RequestBody.create(
@@ -310,6 +316,11 @@ public class TravelServiceImpl implements TravelService {
 
         String ret = "";
         String json = JsonUtils.object2Json(seatRequest);
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        json = gson.toJson(postData);
         System.out.println("function08_URI JSON: "+json);
         try {
             System.out.println("Invoking http://"+ function08_URI);

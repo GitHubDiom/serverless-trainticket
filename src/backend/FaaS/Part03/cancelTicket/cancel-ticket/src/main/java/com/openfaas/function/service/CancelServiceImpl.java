@@ -7,6 +7,10 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 
+import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -139,6 +143,11 @@ public class CancelServiceImpl implements CancelService {
 
         String ret = "";
         String json = JsonUtils.object2Json(order);
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        json = gson.toJson(postData);
         try {
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);

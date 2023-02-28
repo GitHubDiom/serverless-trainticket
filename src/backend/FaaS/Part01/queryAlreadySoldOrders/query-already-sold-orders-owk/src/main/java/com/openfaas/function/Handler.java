@@ -32,9 +32,9 @@ import java.util.Date;
         // int secondLastSlashIndex = owPath.lastIndexOf("/", owPath.lastIndexOf("/")-1);
         // String travelDateStr = owPath.substring(secondLastSlashIndex+1, owPath.lastIndexOf("/"));
         // String trainNumber = owPath.substring(owPath.lastIndexOf("/")+1);
-
-        String travelDateStr = args.get("travelDate").getAsString();
-        String trainNumber = args.get("trainNumber").getAsString();
+        JsonObject requestBody = args.get("__post_data").getAsJsonObject();
+        String travelDateStr = requestBody.get("travelDate").getAsString();
+        String trainNumber = requestBody.get("trainNumber").getAsString();
 
         // String travelDateStr = req.getPath().get("travelDate");
         Date travelDate = new Date(travelDateStr);

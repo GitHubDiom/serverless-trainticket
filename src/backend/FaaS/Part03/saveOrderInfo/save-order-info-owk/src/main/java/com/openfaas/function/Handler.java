@@ -19,7 +19,7 @@ public class Handler {
     public static JsonObject main(JsonObject args) {
         long startTime=System.currentTimeMillis(); 
         Gson gson = new Gson();
-        String requestBody = gson.toJson(args);
+        String requestBody = gson.toJson(args.get("__post_data"));
         System.out.println("requestBody: "+ requestBody);
 
         Order orderInfo = JsonUtils.json2Object(requestBody, Order.class);

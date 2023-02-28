@@ -25,8 +25,9 @@ public class Handler {
         // int secondLastSlashIndex = owPath.lastIndexOf("/", owPath.lastIndexOf("/")-1);
         // String accountId = owPath.substring(secondLastSlashIndex+1, owPath.lastIndexOf("/"));
         // String checkDate = owPath.substring(owPath.lastIndexOf("/")+1);
-        String checkDate = args.get("checkDate").getAsString();
-        String accountId = args.get("accountId").getAsString();
+        JsonObject requestBody = args.get("__post_data").getAsJsonObject();
+        String checkDate = requestBody.get("checkDate").getAsString();
+        String accountId = requestBody.get("accountId").getAsString();
 
 
         mResponse mRes = orderService.checkSecurityAboutOrder(new Date(checkDate),accountId);

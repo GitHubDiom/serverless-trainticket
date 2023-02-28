@@ -307,8 +307,9 @@ $("#ticket_select_contacts_confirm_btn").click(function () {
                     orderTicketInfo.consigneeWeight = parseFloat($("#weight_of_consign ").val());
                     orderTicketInfo.isWithin = false;
                 }
-
-                var orderTicketsData = JSON.stringify(orderTicketInfo);
+                var orderTicketInfoPostData = new Object();
+                orderTicketInfoPostData.__post_data=orderTicketInfo;
+                var orderTicketsData = JSON.stringify(orderTicketInfoPostData);
                 console.log("orderTicketsData:");
                 console.log(orderTicketsData);
 
@@ -373,8 +374,9 @@ function preserveCreateNewContacts() {
     addContactsInfo.documentType = $("#booking_new_contacts_documentType").val();
     addContactsInfo.documentNumber = $("#booking_new_contacts_documentNum").val();
     addContactsInfo.phoneNumber = $("#booking_new_contacts_phoneNum").val();
-
-    var data = JSON.stringify(addContactsInfo);
+    var addContactsInfoPostData = new Object();
+    addContactsInfoPostData.__post_data=addContactsInfo;
+    var data = JSON.stringify(addContactsInfoPostData);
     $.ajax({
         type: "post",
         // url: "/function/create-new-contacts.openfaas-fn",

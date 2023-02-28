@@ -6,6 +6,10 @@ import com.openfaas.function.entity.*;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 
 import java.util.List;
 import java.util.Set;
@@ -56,6 +60,11 @@ public class SeatServiceImpl implements SeatService {
 
         //Call the micro service to query for residual Ticket information: the set of the Ticket sold for the specified seat type
         String json = JsonUtils.object2Json(seatRequest);
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        json = gson.toJson(postData);
         try {
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);

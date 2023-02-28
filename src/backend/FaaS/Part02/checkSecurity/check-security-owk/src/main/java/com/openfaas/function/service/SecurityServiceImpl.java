@@ -55,8 +55,10 @@ public class SecurityServiceImpl implements SecurityService {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("checkDate", checkDate+"");
         jsonObject.addProperty("accountId", accountId);
-        Gson gson = new Gson();
-        String orderJson = gson.toJson(jsonObject);
+        Gson gson = new Gson();        
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        String orderJson = gson.toJson(postData);
         System.out.println("orderJson: "+orderJson);
         
         try{

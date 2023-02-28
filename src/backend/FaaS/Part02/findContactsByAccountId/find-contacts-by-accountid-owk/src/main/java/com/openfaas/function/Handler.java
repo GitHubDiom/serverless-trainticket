@@ -25,7 +25,6 @@ public class Handler {
     public static JsonObject main(JsonObject args) {
         long startTime=System.currentTimeMillis(); 
         Gson gson = new Gson();
-        String requestBody = gson.toJson(args);
         String owPath = args.get("__ow_path").getAsString();
         String accountId = owPath.substring(owPath.lastIndexOf("/")+1);;
 

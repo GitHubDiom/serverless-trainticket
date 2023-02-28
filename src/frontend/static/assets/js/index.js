@@ -105,21 +105,23 @@ var reserveApp = new Vue({
                 alert("Departure Date Format Wrong.");
                 return;
             }
-            var travelQueryData = JSON.stringify(travelQueryInfo);
+            var travelQueryInfoPostData = new Object();
+            travelQueryInfoPostData.__post_data=travelQueryInfo;
+            var travelQueryData = JSON.stringify(travelQueryInfoPostData);
             var train_type = this.selectedTrainType;
             this.tempTravelList = [];
             this.travelList =[];
 
             //修改uri
             if (train_type == 0) {
-                this.queryForTravelInfo(travelQueryData, "/function/get-left-trip-tickets.openfaas-fn");
+                this.queryForTravelInfo(travelQueryData, "/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/tickets/getLeftTripTickets");
                 // this.queryForTravelInfo(travelQueryData, "/api/v1/travel2service/trips/left");
             } else if (train_type == 1) {
                 this.queryForTravelInfo(travelQueryData, "/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/tickets/getLeftTripTickets");
                 // this.queryForTravelInfo(travelQueryData, "/function/get-left-trip-tickets.openfaas-fn");
                 console.log(travelQueryData);
             } else if (train_type == 2) {
-                this.queryForTravelInfo(travelQueryData, "/function/get-left-trip-tickets.openfaas-fn");
+                this.queryForTravelInfo(travelQueryData, "/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/tickets/getLeftTripTickets");
             }
 
         },

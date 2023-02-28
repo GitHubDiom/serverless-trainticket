@@ -9,6 +9,10 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.Gson;
+
 import java.util.*;
 
 /**
@@ -122,6 +126,12 @@ public class OrderServiceImpl implements OrderService {
 
         String ret = "";
         String json = JsonUtils.object2Json(ids);
+        Gson gson = new Gson();
+        // json最终会是一个数组，需要被解析成JSONArray
+        JsonArray jsonArray = gson.fromJson(json, JsonArray.class);
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonArray);
+        json = gson.toJson(postData);
         try {
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);

@@ -18,12 +18,8 @@ public class Handler {
 
     public JsonObject main(JsonObject args) {
         long startTime=System.currentTimeMillis();
-        args.remove("__ow_headers");
-        args.remove("__ow_path");
-        args.remove("__ow_method");
         Gson gson = new Gson();
-        
-        String requestBody = gson.toJson(args);
+        String requestBody = gson.toJson(args.get("__post_data"));
         System.out.println("requestBody: "+requestBody);
 
         PaymentInfo info= JsonUtils.json2Object(requestBody, PaymentInfo.class);

@@ -7,6 +7,11 @@ import edu.fudan.common.util.mResponse;
 import com.openfaas.function.entity.*;
 import com.openfaas.function.repository.TripRepository;
 
+import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -76,6 +81,11 @@ public class TravelServiceImpl implements TravelService {
 
         String ret = "";
         String json = JsonUtils.object2Json(query);
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        json = gson.toJson(postData);
         try {
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"), json);
@@ -263,6 +273,11 @@ public class TravelServiceImpl implements TravelService {
 
         String ret = "";
         String json = JsonUtils.object2Json(seatRequest);
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        JsonObject postData = new JsonObject();
+        postData.add("__post_data", jsonObject);
+        json = gson.toJson(postData);
         System.out.println(json);
         try {
             RequestBody body = RequestBody.create(

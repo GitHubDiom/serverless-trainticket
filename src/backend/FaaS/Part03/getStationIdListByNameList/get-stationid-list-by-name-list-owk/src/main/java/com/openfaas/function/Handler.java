@@ -20,14 +20,8 @@ public class Handler {
 
     public static JsonObject main(JsonObject args) {
         long startTime=System.currentTimeMillis();
-        // There must some way to avoid these hard-code things.
-        // But I dont care ...
-        args.remove("__ow_headers");
-        args.remove("__ow_path");
-        args.remove("__ow_method");
-
         Gson gson = new Gson();
-        String requestBody = gson.toJson(args.get("__ow_body"));
+        String requestBody = gson.toJson(args.get("__post_data"));
         // System.out.println("requestBody: "+ requestBody);
 
         List<String> info = JsonUtils.json2Object(requestBody, List.class);
