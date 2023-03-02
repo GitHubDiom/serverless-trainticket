@@ -63,6 +63,6 @@ if __name__ == '__main__':
     
     api_host_str = " ".join([ts_service_mapper, owk_service_mapper])
     print(api_host_str)
-    run_docker(image_name="openwhisk/java8action:1.17.0", api_host_str=api_host_str)
+    run_docker(image_name="diomwu/java8action:HashCache", api_host_str=api_host_str)
     
     # docker run -i -t -p 8080:8080 --add-host=owdev-apigateway.openwhisk:${openwhisk_apigateway_ip} openwhisk/java8action:1.17.0
