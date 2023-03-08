@@ -10,7 +10,9 @@ ts_services=[
     "ts-serverless-price-mongo", "ts-serverless-payment-mongo", "ts-serverless-contacts-mongo",
     "ts-serverless-order-mongo", "ts-serverless-station-mongo", "ts-serverless-inside-payment-mongo",
     "ts-serverless-auth-mongo", 
-    "ts-auth-service", "ts-verification-code-service", "ts-serverless-ui-dashboard"
+    "ts-auth-service", "ts-verification-code-service", "ts-serverless-ui-dashboard",
+    # HashCache Global Proxy
+    "hashcache-global-proxy"
     ]
 owk_services=[
     "owdev-apigateway"
@@ -46,6 +48,9 @@ def get_service_mapper(json_name, services, namespace="default"):
     format_str="--add-host={}:{} "
     add_host_str=""
     for instance_name, ip in instance_ip_json.items():
+        if ip == "<no value>":
+            print(f"ATTENTION!!! {instance_name} not {ip}")
+            continue
         arrays = instance_name.split("-")[:-2]
         service_name = "-".join(arrays)
         add_host_str+=format_str.format(f"{service_name}.{namespace}", ip)
